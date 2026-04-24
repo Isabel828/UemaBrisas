@@ -14,6 +14,7 @@ from .servicos import (
     atualizar_perfil_usuario,
     montar_resposta_perfil,
     listar_permissoes_disponiveis,
+    obter_permissoes_usuario,  # 🔥 IMPORTANTE
 )
 
 
@@ -22,6 +23,13 @@ from .servicos import (
 def minhas_permissoes(request):
     perfil = obter_ou_criar_perfil(request.user)
     return Response(montar_resposta_perfil(perfil))
+
+
+# 🔥 NOVA VIEW PRA FRONTEND
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def minhas_regras(request):
+    return Response(obter_permissoes_usuario(request.user))
 
 
 @api_view(['GET'])

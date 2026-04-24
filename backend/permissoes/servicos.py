@@ -107,3 +107,30 @@ def listar_permissoes_disponiveis() -> dict:
             'exportar',
         ]
     }
+
+
+# 🔥 ESSA É A PARTE QUE FALTAVA (IMPORTANTE PRO FRONTEND)
+def obter_permissoes_usuario(user):
+    perfil = obter_ou_criar_perfil(user)
+
+    return {
+        "roles": [perfil.role],
+        "flags": [
+            flag for flag, ativo in {
+                "superusuario": perfil.superusuario,
+                "admin_municipio": perfil.admin_municipio,
+                "profissional_interno": perfil.profissional_interno,
+                "usuario_externo": perfil.usuario_externo,
+            }.items() if ativo
+        ],
+        "acoes": [
+            acao for acao, ativo in {
+                "visualizar": perfil.visualizar,
+                "editor": perfil.editor,
+                "comentar": perfil.comentar,
+                "aprovar": perfil.aprovar,
+                "assinar": perfil.assinar,
+                "exportar": perfil.exportar,
+            }.items() if ativo
+        ]
+    }
